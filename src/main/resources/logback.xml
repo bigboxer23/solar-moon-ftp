@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<appender name="OPEN_SEARCH" class="com.bigboxer23.solar_moon.logging.OpenSearchAppender">
+		<url>${OS_CLUSTER}</url>
+		<index>logs-%date{yyyy.MM}</index>
+		<includeMdc>true</includeMdc>
+		<sleepTime>0</sleepTime>
+		<authentication class="com.bigboxer23.solar_moon.logging.BasicAuthentication" /> <!-- optional -->
+		<headers>
+			<header>
+				<name>Content-Type</name>
+				<value>application/json</value>
+			</header>
+		</headers>
+	</appender>
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} [%X{transaction.host}][%X{transaction.remote}][%X{transaction.id}] - %msg%n</pattern>
+		</encoder>
+	</appender>
+	<logger name="com.gargoylesoftware.htmlunit.html.BaseFrameElement" level="OFF"/>
+	<logger name="ch.qos.logback.classic" level="OFF"/>
+	<root level="INFO">
+		<appender-ref ref="OPEN_SEARCH" />
+		<appender-ref ref="STDOUT" />
+	</root>
+</configuration>
