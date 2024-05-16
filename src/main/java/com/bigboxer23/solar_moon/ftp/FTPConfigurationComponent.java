@@ -9,6 +9,7 @@ import java.util.Map;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -52,14 +53,17 @@ public class FTPConfigurationComponent implements InitializingBean {
 	}
 
 	private void updateUserDB() throws IOException {
+		logger.debug("running " + updateDBCommand);
 		runCommand(updateDBCommand);
 	}
 
 	private void deleteUserFile() {
+		logger.debug("deleting user file");
 		userDBFile.delete();
 	}
 
 	private void updateUserDirectoryPermissions() {
+		logger.debug("running " + permissionCommand);
 		runCommand(permissionCommand);
 	}
 
@@ -69,12 +73,6 @@ public class FTPConfigurationComponent implements InitializingBean {
 		if (!userDirectory.exists()) {
 			userDirectory.mkdirs();
 		}
-	}
-
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		userDBFile = new File(new File(configurationBase), "userDB");
-		userDirectoriesBaseFile = new File(userDirectoriesBase);
 	}
 
 	private void runCommand(String command) {
@@ -87,14 +85,21 @@ public class FTPConfigurationComponent implements InitializingBean {
 				while ((line = reader.readLine()) != null) {
 					out.append(line).append("\n");
 				}
-				logger.info("command output: " + out);
+				logger.debug("command output: " + out);
 			}
 			int exitCode = process.waitFor();
 			if (exitCode != 0) {
 				throw new IOException("error exit status from command: " + exitCode);
 			}
 		} catch (IOException | InterruptedException e) {
-			logger.warn("error running command", e);
+			logger.error("error running command '" + command + "'", e);
 		}
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		userDBFile = new File(new File(configurationBase), "vusers.txt");
+		userDirectoriesBaseFile = new File(userDirectoriesBase);
+		MDC.put("service.name", "FTPConfiguration");
 	}
 }
