@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+	<property resource="application.properties" />
 	<appender name="OPEN_SEARCH" class="com.bigboxer23.solar_moon.logging.OpenSearchAppender">
 		<url>${OS_CLUSTER}</url>
 		<index>logs-%date{yyyy.MM}</index>
@@ -22,6 +23,6 @@
 	<logger name="ch.qos.logback.classic" level="OFF"/>
 	<root level="INFO">
 		<appender-ref ref="OPEN_SEARCH" />
-		<appender-ref ref="STDOUT" />
+		<!--<appender-ref ref="STDOUT" />-->
 	</root>
 </configuration>

@@ -129,7 +129,7 @@
               <commandlineArgs>-i ${identity_file} ${project.basedir}/target/solar-moon-ftp-1.0.jar ${user}@${host}:~/</commandlineArgs>
             </configuration>
           </execution>
-          <!--<execution>
+          <execution>
             <id>Restarting remote service</id>
             <goals>
               <goal>exec</goal>
@@ -139,7 +139,7 @@
               <executable>ssh</executable>
               <commandlineArgs>-i ${identity_file} ${user}@${host} sudo systemctl restart solar-moon-ftp.service</commandlineArgs>
             </configuration>
-          </execution>-->
+          </execution>
         </executions>
       </plugin>
       <plugin>
