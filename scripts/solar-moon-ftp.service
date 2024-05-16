@@ -1,0 +1,9 @@
+[Unit]
+Description=service to run solar-moon-ftp configuration service
+After=multi-user.target
+[Service]
+WorkingDirectory=/home/ec2-user
+ExecStart=java -Xms256m -Xmx512m -jar ./solar-moon-ftp-1.0.jar
+User=root
+[Install]
+WantedBy=multi-user.target
