@@ -33,6 +33,11 @@
       <version>2.5.0</version>
     </dependency>
     <dependency>
+      <groupId>software.amazon.awssdk</groupId>
+      <artifactId>sqs</artifactId>
+      <version>2.25.51</version>
+    </dependency>
+    <dependency>
       <groupId>com.bigboxer23</groupId>
       <artifactId>solar-moon-common</artifactId>
       <version>1.8.21</version>
