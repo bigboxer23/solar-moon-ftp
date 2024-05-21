@@ -43,9 +43,8 @@ public class FTPConfigurationComponent implements InitializingBean {
 
 	public synchronized void updateConfiguration() throws IOException {
 		deleteUserFile();
-		Map<String, String> customers = customerComponent.getCustomerAccessKeyMap();
-		for (Map.Entry<String, String> entry : customers.entrySet()) {
-			handleUser(entry.getKey(), entry.getValue());
+		for (String accessKey : customerComponent.getAccessKeys()) {
+			handleUser(accessKey);
 		}
 		updateUserDB();
 		deleteUserFile();
@@ -67,9 +66,9 @@ public class FTPConfigurationComponent implements InitializingBean {
 		runCommand(permissionCommand);
 	}
 
-	private void handleUser(String userId, String accessKey) throws IOException {
-		FileUtils.writeStringToFile(userDBFile, userId + "\n" + accessKey + "\n", StandardCharsets.UTF_8, true);
-		File userDirectory = new File(userDirectoriesBaseFile, userId);
+	private void handleUser(String accessKey) throws IOException {
+		FileUtils.writeStringToFile(userDBFile, accessKey + "\n" + accessKey + "\n", StandardCharsets.UTF_8, true);
+		File userDirectory = new File(userDirectoriesBaseFile, accessKey);
 		if (!userDirectory.exists()) {
 			userDirectory.mkdirs();
 		}
