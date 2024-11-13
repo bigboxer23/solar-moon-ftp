@@ -51,17 +51,17 @@ public class FTPConfigurationComponent implements InitializingBean {
 	}
 
 	private void updateUserDB() throws IOException {
-		logger.debug("running " + updateDBCommand);
+		logger.info("running updateUserDB");
 		runCommand(updateDBCommand);
 	}
 
 	private void deleteUserFile() {
-		logger.debug("deleting user file");
+		logger.info("deleting user file");
 		userDBFile.delete();
 	}
 
 	private void updateUserDirectoryPermissions() {
-		logger.debug("running " + permissionCommand);
+		logger.info("running updateUserDirectoryPermissions");
 		runCommand(permissionCommand);
 	}
 
