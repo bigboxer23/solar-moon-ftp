@@ -1,8 +1,7 @@
 package com.bigboxer23.solar_moon.ftp;
 
 import java.io.IOException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,9 +10,9 @@ import software.amazon.awssdk.services.sqs.SqsClient;
 import software.amazon.awssdk.services.sqs.model.*;
 
 /** */
+@Slf4j
 @Component
 public class FTPSQSQueueListener implements InitializingBean {
-	private static final Logger logger = LoggerFactory.getLogger(FTPSQSQueueListener.class);
 
 	@Value("${ftp.update.sqs.url}")
 	private String queueURL;
@@ -27,15 +26,15 @@ public class FTPSQSQueueListener implements InitializingBean {
 	@Override
 	public void afterPropertiesSet() {
 		MDC.put("service.name", "FTPConfiguration");
-		logger.info("Starting listening to FTP SQS");
+		log.info("Starting listening to FTP SQS");
 		while (true) {
-			logger.info("Creating new SQS client");
+			log.info("Creating new SQS client");
 			try (SqsClient sqs = SqsClient.create()) {
 				longPoll(sqs);
 			} catch (SqsException e) {
-				logger.error(e.awsErrorDetails().errorMessage());
+				log.error(e.awsErrorDetails().errorMessage());
 			} catch (Exception e) {
-				logger.error("FTPSQSQueueListener", e);
+				log.error("FTPSQSQueueListener", e);
 			}
 		}
 	}
@@ -51,17 +50,17 @@ public class FTPSQSQueueListener implements InitializingBean {
 					handleMessage(sqs, message);
 				}
 			}
-			logger.debug("FTP SQS iterating");
+			log.debug("FTP SQS iterating");
 		}
 	}
 
 	private void handleMessage(SqsClient sqs, Message message) throws IOException {
-		logger.info("FTP SQS message received " + message.body());
+		log.info("FTP SQS message received " + message.body());
 		ftpConfigurationComponent.updateConfiguration();
 		sqs.deleteMessage(DeleteMessageRequest.builder()
 				.queueUrl(queueURL)
 				.receiptHandle(message.receiptHandle())
 				.build());
-		logger.info("FTP SQS message deleted " + message.body());
+		log.info("FTP SQS message deleted " + message.body());
 	}
 }

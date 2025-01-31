@@ -5,19 +5,17 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /** */
+@Slf4j
 @Component
 public class FTPConfigurationComponent implements InitializingBean {
-	private static final Logger logger = LoggerFactory.getLogger(FTPConfigurationComponent.class);
-
 	private FTPCustomerComponent customerComponent;
 
 	@Value("${user_directories_base}")
@@ -51,17 +49,17 @@ public class FTPConfigurationComponent implements InitializingBean {
 	}
 
 	private void updateUserDB() throws IOException {
-		logger.info("running updateUserDB");
+		log.info("running updateUserDB");
 		runCommand(updateDBCommand);
 	}
 
 	private void deleteUserFile() {
-		logger.info("deleting user file");
+		log.info("deleting user file");
 		userDBFile.delete();
 	}
 
 	private void updateUserDirectoryPermissions() {
-		logger.info("running updateUserDirectoryPermissions");
+		log.info("running updateUserDirectoryPermissions");
 		runCommand(permissionCommand);
 	}
 
@@ -83,14 +81,14 @@ public class FTPConfigurationComponent implements InitializingBean {
 				while ((line = reader.readLine()) != null) {
 					out.append(line).append("\n");
 				}
-				logger.debug("command output: " + out);
+				log.debug("command output: " + out);
 			}
 			int exitCode = process.waitFor();
 			if (exitCode != 0) {
 				throw new IOException("error exit status from command: " + exitCode);
 			}
 		} catch (IOException | InterruptedException e) {
-			logger.error("error running command '" + command + "'", e);
+			log.error("error running command '" + command + "'", e);
 		}
 	}
 
