@@ -153,6 +153,7 @@
         <version>1.2.1</version>
         <executions>
           <execution>
+            <id>read-application-properties</id>
             <goals>
               <goal>read-project-properties</goal>
             </goals>
@@ -161,6 +162,7 @@
               <files>
                 <file>${basedir}/src/main/resources/application.properties</file>
               </files>
+              <quiet>true</quiet>
             </configuration>
           </execution>
         </executions>
