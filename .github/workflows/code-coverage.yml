@@ -36,7 +36,7 @@ jobs:
           EOF
 
     - name: Run tests with coverage
-      run: mvn clean verify
+      run: mvn -B clean test --fail-at-end
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v5
