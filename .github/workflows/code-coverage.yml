@@ -1,4 +1,4 @@
-name: Code Coverage
+name: Tests and Code Coverage
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  test:
     name: Run Tests and Generate Coverage
     runs-on: ubuntu-latest
 
@@ -20,6 +20,7 @@ jobs:
       with:
         distribution: 'adopt'
         java-version: '21'
+        
     - name: Configure Maven for GitHub Packages
       run: |
           mkdir -p ~/.m2

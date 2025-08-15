@@ -1,4 +1,7 @@
 [![CodeQL](https://github.com/bigboxer23/solar-moon-ftp/actions/workflows/codeql.yml/badge.svg)](https://github.com/bigboxer23/solar-moon-ftp/actions/workflows/codeql.yml)
+[![Build Status](https://github.com/bigboxer23/solar-moon-ftp/actions/workflows/code-coverage.yml/badge.svg)](https://github.com/bigboxer23/solar-moon-ftp/actions/workflows/code-coverage.yml)
+[![codecov](https://codecov.io/gh/bigboxer23/solar-moon-ftp/branch/master/graph/badge.svg)](https://codecov.io/gh/bigboxer23/solar-moon-ftp)
+
 
 # solar-moon-ftp
 
